@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Tv(models.Model):
@@ -8,7 +9,7 @@ class Tv(models.Model):
     content = models.TextField("Описание")
     value = models.IntegerField("Цена")
     discount_value = models.IntegerField("Цена со скидкой", null=True, blank=True)
-    diagonal = models.IntegerField("Диагональ")
+    diagonal = models.FloatField("Диагональ")
     resolution = models.CharField("Разрешение", max_length=50)
     frequency = models.IntegerField("Частота")
     sound_power = models.IntegerField("Мощность звука")
@@ -34,6 +35,10 @@ class Model(models.Model):
     class Meta:
         verbose_name = "Модель телевизора"
         verbose_name_plural = "Модели телевизоров"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('model', kwargs={"model_slug": self.slug})

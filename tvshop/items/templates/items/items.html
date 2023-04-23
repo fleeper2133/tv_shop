@@ -1,0 +1,110 @@
+{% extends 'items/base.html' %}
+{% load mathfilters %}
+
+{% block models %}
+		<!-- NAVIGATION -->
+		<nav id="navigation">
+			<!-- container -->
+			<div class="container">
+				<!-- responsive-nav -->
+				<div id="responsive-nav">
+					<!-- NAV -->
+					<ul class="main-nav nav navbar-nav">
+						{% if slug_selected %}
+							<li><a href="{% url 'home' %}">Все модели</a></li>
+						{% else %}
+							<li class="active"><a href="{% url 'home' %}">Все модели</a></li>
+						{% endif %}
+
+						{% for model in models %}
+							{% if slug_selected == model.slug %}
+								<li class="active"><a href="{{ model.get_absolute_url }}">{{ model }}</a></li>
+							{% else %}
+								<li><a href="{{ model.get_absolute_url }}">{{ model }}</a></li>
+							{% endif %}
+						{% endfor %}
+
+					</ul>
+					<!-- /NAV -->
+				</div>
+				<!-- /responsive-nav -->
+			</div>
+			<!-- /container -->
+		</nav>
+		<!-- /NAVIGATION -->
+{% endblock %}
+
+{% block content %}
+{% for i in range %}
+<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+						<div class="col-md-12">
+
+								<!-- tab -->
+								<div id="tab1" class="tab-pane fade in active">
+									<div class="products-slick" data-nav="#slick-nav-2">
+
+										{% for item in items %}
+
+
+											{% if i|mul:4 <= forloop.counter0 and forloop.counter0 < i|add:1|mul:4  %}
+
+											<!-- product -->
+											<div class="product">
+												<div class="product-img">
+													<img src="{{ item.photo.url }}" alt="">
+	<!--												<div class="product-label">-->
+	<!--													<span class="sale">-30%</span>-->
+	<!--													<span class="new">NEW</span>-->
+	<!--												</div>-->
+												</div>
+												<div class="product-body">
+													<p class="product-category">{{ item.model }}</p>
+													<h3 class="product-name"><a href="#">{{ item.title }}</a></h3>
+													{% if item.discount_value %}
+														<h4 class="product-price">{{ item.discount_value }}руб. <del class="product-old-price">{{ item.value }}руб.</del></h4>
+													{% else %}
+														<h4 class="product-price">{{ item.value }}руб.</h4>
+													{% endif %}
+													<div class="product-rating">
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+													</div>
+													<div class="product-btns">
+														<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+														<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+													</div>
+												</div>
+												<div class="add-to-cart">
+													<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												</div>
+											</div>
+
+											<!-- /product -->
+
+											{% endif %}
+										{% endfor %}
+
+
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+{% endfor %}
+
+{% endblock %}
