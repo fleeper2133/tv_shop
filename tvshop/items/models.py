@@ -7,7 +7,7 @@ class Tv(models.Model):
     model = models.ForeignKey('Model', null=True, on_delete=models.SET_NULL, verbose_name="Модель")
     content = models.TextField("Описание")
     value = models.IntegerField("Цена")
-    discount_value = models.IntegerField("Цена со скидкой", null=True)
+    discount_value = models.IntegerField("Цена со скидкой", null=True, blank=True)
     diagonal = models.IntegerField("Диагональ")
     resolution = models.CharField("Разрешение", max_length=50)
     frequency = models.IntegerField("Частота")
@@ -23,6 +23,9 @@ class Tv(models.Model):
         verbose_name_plural = "Телевизоры"
         ordering = ['-time_create']
 
+    def __str__(self):
+        return self.title
+
 
 class Model(models.Model):
     title = models.CharField("Название", max_length=255)
@@ -31,3 +34,6 @@ class Model(models.Model):
     class Meta:
         verbose_name = "Модель телевизора"
         verbose_name_plural = "Модели телевизоров"
+
+    def __str__(self):
+        return self.title
