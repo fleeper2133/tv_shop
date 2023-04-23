@@ -111,7 +111,26 @@
 								<div id="tab2" class="tab-pane fade in">
 									<div class="row">
 										<div class="col-md-12">
-											<p>{{ item.content|linebreaks }}</p>
+											<ul>
+												<li>Название: {{ item.title }}</li>
+												<li>Тип: {{ item.type_tv }}</li>
+												<li>Модель: {{ item.model }}</li>
+												<li>Диагональ: {{ item.diagonal }}"</li>
+												<li>Разрешение экрана: {{ item.resolution }}</li>
+												<li>Частота экрана: {{ item.frequency }}Гц</li>
+												<li>Мощность звука: {{ item.sound_power }}Вт</li>
+												{% if item.wi_fi %}
+													<li>wi-fi: Есть</li>
+												{% else %}
+													<li>wi-fi: Нет</li>
+												{% endif %}
+
+												{% if item.smart_tv %}
+													<li>smart_tv: Есть</li>
+												{% else %}
+													<li>smart_tv: Нет</li>
+												{% endif %}
+											</ul>
 										</div>
 									</div>
 								</div>
