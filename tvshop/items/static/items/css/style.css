@@ -1391,14 +1391,14 @@ textarea.input {
 	Product view
 \*----------------------------*/
 
-#product-main-img .slick-prev {
+.slick-prev {
   -webkit-transform: translateX(-15px);
   -ms-transform: translateX(-15px);
   transform: translateX(-15px);
   left: 15px;
 }
 
-#product-main-img .slick-next {
+.slick-next {
   -webkit-transform: translateX(15px);
   -ms-transform: translateX(15px);
   transform: translateX(15px);
@@ -1411,8 +1411,7 @@ textarea.input {
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
 }
-
-#product-main-img:hover .slick-prev, #product-main-img:hover .slick-next {
+.slick-prev, .slick-next {
   -webkit-transform: translateX(0%);
   -ms-transform: translateX(0%);
   transform: translateX(0%);

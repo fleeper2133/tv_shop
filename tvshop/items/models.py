@@ -27,6 +27,9 @@ class Tv(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={"pk": self.pk})
+
 
 class Model(models.Model):
     title = models.CharField("Название", max_length=255)

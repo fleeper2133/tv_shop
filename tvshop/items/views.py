@@ -1,5 +1,6 @@
+from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import *
 from math import ceil
 
@@ -42,5 +43,17 @@ class ItemList(ListView):
         context['range'] = range(row_count)
         return context
 
+
+class ItemDetail(DetailView):
+    model = Tv
+    template_name = 'items/detail.html'
+    context_object_name = 'item'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        same_items = Tv.objects.filter(~Q(pk=context['item'].pk), is_published=True, model__pk=context['item'].model.pk)
+        context['title'] = context['item']
+        context['same_items'] = same_items
+        return context
 
 
