@@ -29,7 +29,7 @@
 				<form class="login100-form validate-form" method="post">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-26">
-						Авторизация
+						Регистрация
 					</span>
 
 					{% for f in form %}
@@ -42,11 +42,11 @@
 
 					<div class="text-center ">
 						<span class="txt1">
-							Нет аккаунта?
+							Есть аккаунт?
 						</span>
 
-						<a class="txt2" href="{% url 'reg' %}">
-							Зарегистрируйся
+						<a class="txt2" href="{% url 'login' %}">
+							Авторизуйся
 						</a>
 					</div>
 
@@ -54,7 +54,7 @@
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button class="login100-form-btn" type="submit">
-								Войти
+								Зарегистрируйся
 							</button>
 						</div>
 					</div>

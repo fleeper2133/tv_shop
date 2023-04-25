@@ -4,17 +4,35 @@ from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={"class": "input100", "name": "email"})
+    )
+    password1 = forms.CharField(
+        label="Пароль",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"class": "input100", "name": "pass"})
+    )
+    password2 = forms.CharField(
+        label="Повтор пароля",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"class": "input100",  "name": "pass"})
+    )
 
     class Meta:
         model = CustomUser
-        fields = ('email',)
+        fields = ('email', 'password1', 'password2')
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class": "input100",
-                                                            "name": "email"}))
-    password = forms.CharField(label="Пароль", strip=False, widget=forms.PasswordInput(attrs={"class": "input100",
-                                                                 "name": "pass"}))
+    username = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={"class": "input100","name": "email"})
+    )
+    password = forms.CharField(
+        label="Пароль",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"class": "input100",  "name": "pass"}))
 
 
 class CustomUserChangeForm(UserChangeForm):
