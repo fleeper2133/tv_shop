@@ -29,23 +29,32 @@
 				<form class="login100-form validate-form" method="post">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-26">
-						Login
+						Авторизация
 					</span>
 
 					{% for f in form %}
-					<div class="wrap-input100 validate-input" data-validate="">
+					<div class="wrap-input100 validate-input" data-validate="Некорректное поле">
 						{{ f }}
 						<span class="focus-input100" data-placeholder="{{ f.label }}"></span>
 					</div>
 					<div class="form-error">{{ f.errors }}</div>
 					{% endfor %}
 
+					<div class="text-center ">
+						<span class="txt1">
+							Нет аккаунта?
+						</span>
+
+						<a class="txt2" href="{% url 'reg' %}">
+							Зарегистрируйся
+						</a>
+					</div>
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button class="login100-form-btn" type="submit">
-								Login
+								Войти
 							</button>
 						</div>
 					</div>
@@ -53,15 +62,7 @@
 
 					<div class="form-error">{{ form.non_field_errors }}</div>
 
-					<div class="text-center p-t-115">
-						<span class="txt1">
-							Don’t have an account?
-						</span>
 
-						<a class="txt2" href="#">
-							Sign Up
-						</a>
-					</div>
 				</form>
 			</div>
 		</div>
