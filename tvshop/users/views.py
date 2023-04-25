@@ -1,10 +1,12 @@
+from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import LoginForm
 
 
-def test(request):
-    return render(request, 'users/login.html')
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 
 class UserLoginView(LoginView):
