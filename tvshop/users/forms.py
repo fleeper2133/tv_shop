@@ -22,9 +22,6 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('email', 'password1', 'password2')
 
-    def clean_phone(self):
-        return self.cleaned_data['phone'] or None
-
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
@@ -41,5 +38,3 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ('email',)
 
-    def clean_phone(self):
-        return self.cleaned_data['phone'] or None
