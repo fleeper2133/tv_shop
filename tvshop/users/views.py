@@ -1,7 +1,8 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, TemplateView
 
 from .forms import LoginForm, CustomUserCreationForm
 
@@ -17,7 +18,7 @@ class UserLoginView(LoginView):
     extra_context = {"title": "Авторизация"}
 
     def get_success_url(self):
-        return redirect('home')
+        return reverse_lazy('home')
 
 
 class UserRegistrationView(CreateView):
@@ -29,6 +30,10 @@ class UserRegistrationView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('home')
+
+
+class UserProfileView(TemplateView):
+    template_name = 'users/profile.html'
 
 
 

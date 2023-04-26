@@ -10,6 +10,8 @@
 
 		<title>{{ title }}</title>
 
+		{% block head %}{% endblock %}
+
 		<link rel="shortcut icon" type="image/x-icon" href="{% static 'items/img/icon_logo.png' %}" />
 
 		<!-- Google font -->
@@ -32,7 +34,7 @@
 		<!-- Custom stlylesheet -->
 		<link type="text/css" rel="stylesheet" href="{% static 'items/css/style.css' %}"/>
 
-		{% block head %}{% endblock %}
+
 
     </head>
 	<body>
