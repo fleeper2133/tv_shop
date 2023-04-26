@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
 from .forms import LoginForm, CustomUserCreationForm
+from .models import CustomUser
 
 
 def user_logout(request):
@@ -34,6 +35,14 @@ class UserRegistrationView(CreateView):
 
 class UserProfileView(TemplateView):
     template_name = 'users/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        context['user'] = user
+        context['title'] = "Профиль"
+        return context
+
 
 
 

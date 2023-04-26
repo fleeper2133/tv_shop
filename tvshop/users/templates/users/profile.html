@@ -13,31 +13,43 @@
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center py-5 mb-3"><h4>edogaru@mail.com.my</h4><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center py-5 mb-3"><h4>{{ user.email }}</h4><span> </span></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>
+                    <h4 class="text-right">Настройки профиля</h4>
                 </div>
+                {% block form %}
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                    <div class="col-md-6"><label class="labels">Имя</label><br>{{ user.first_name|default:'Не задано' }}</div>
+                    <div class="col-md-6"><label class="labels">Фамилия</label><br>{{ user.last_name|default:'Не задано' }}</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter postcode" value=""></div>
-                    <div class="col-md-12"><label class="labels">City</label><input type="text" class="form-control" placeholder="enter city" value=""></div>
-                    <div class="col-md-12"><label class="labels">Country</label><input type="text" class="form-control" placeholder="enter country" value=""></div>
-                    <div class="col-md-12"><label class="labels">ZIP Code</label><input type="text" class="form-control" placeholder="enter ZIP code" value=""></div>
+                    <div class="col-md-12"><label class="labels">Номер телефона</label><br>{{ user.phone|default:'Не задано' }}</div><br><br><br>
+
+                    <h4>Адрес</h4>
+
+                    <div class="col-md-12"><label class="labels">Улица</label><br>{{ user.address.street|default:'Не задано' }}</div>
+                    <div class="row mt-2">
+                        <div class="col-md-4"><label class="labels">Корпус</label><br>{{ user.address.corpus|default:'_' }}</div>
+                        <div class="col-md-4"><label class="labels">Дом</label><br>{{ user.address.house|default:'_' }}</div>
+                        <div class="col-md-4"><label class="labels">Квартира</label><br>{{ user.address.flat|default:'_' }}</div>
+                    </div>
+                    <div class="col-md-12"><label class="labels">Почтовый индекс</label><br>{{ user.address.postcode|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Город</label><br>{{ user.address.city|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Страна</label><br>{{ user.address.country|default:'Не задано' }}</div>
                 </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Изменить профиль</button></div>
+                {% endblock %}
             </div>
         </div>
         <div class="col-md-4">
             <div class="p-3 py-5">
-                <div class="col-md-12"><label class="labels"></label></div>
+                <div class="col-md-12">
+                    <h4>Выйти с аккаунта</h4><br>
+                    <a class="btn btn-danger" href="{% url 'logout' %}">Выйти</a>
+                </div>
             </div>
         </div>
     </div>

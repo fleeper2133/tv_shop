@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, AddressUser
 from django.utils.translation import gettext_lazy as _
 
 
@@ -14,7 +14,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ("email", )
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name", "phone")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "phone", "address")}),
         (
             _("Permissions"),
             {
@@ -42,3 +42,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(AddressUser)
