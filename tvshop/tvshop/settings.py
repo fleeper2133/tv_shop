@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mathfilters',
+    "phonenumber_field",
     'items.apps.ItemsConfig',
     'users.apps.UsersConfig'
 ]
