@@ -2,10 +2,12 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, TemplateView
 
 from .forms import LoginForm, CustomUserCreationForm
 from .models import CustomUser
+from .forms import CustomUserChangeForm, AddressUserChangeForm
 
 
 def user_logout(request):
@@ -42,6 +44,17 @@ class UserProfileView(TemplateView):
         context['user'] = user
         context['title'] = "Профиль"
         return context
+
+
+class UserProfileUpdateView(View):
+    template_name = 'users/profile_update.html'
+
+    def get(self, request):
+        user_form = CustomUserChangeForm(instance=request.user)
+
+        return render(request, self.template_name, {"user_form": user_form})
+
+
 
 
 

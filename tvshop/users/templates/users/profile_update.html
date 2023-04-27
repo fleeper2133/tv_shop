@@ -1,6 +1,9 @@
 {% extends 'users/profile.html' %}
 
 {% block form %}
+                {% for f in user_form %}
+                {{ f.label }}{{ f }}
+                {% endfor %}
                 <div class="row mt-2">
                     <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
                     <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>

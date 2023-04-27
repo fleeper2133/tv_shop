@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, UsernameField
-from .models import CustomUser
+from .models import CustomUser, AddressUser
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -32,9 +32,16 @@ class LoginForm(AuthenticationForm):
         widget=forms.PasswordInput(attrs={"class": "input100",  "name": "pass"}))
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email',)
+        fields = ('first_name', "last_name", "phone",)
+
+
+class AddressUserChangeForm(forms.ModelForm):
+
+    class Meta:
+        model = AddressUser
+        fields = ('street', )
 

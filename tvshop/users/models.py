@@ -1,6 +1,8 @@
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -37,7 +39,6 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField("Email", unique=True)
     phone = PhoneNumberField(_("phone"), default=None, null=True, unique=True, blank=True)
-    address = models.OneToOneField('AddressUser', on_delete=models.SET_NULL, null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -49,13 +50,14 @@ class CustomUser(AbstractUser):
 
 
 class AddressUser(models.Model):
-    street = models.CharField('Адрес', max_length=255)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    street = models.CharField('Адрес', max_length=255, blank=True)
     corpus = models.IntegerField("Корпус", blank=True, null=True)
     house = models.IntegerField('Дом', blank=True, null=True)
     flat = models.IntegerField("Квартира", blank=True, null=True)
-    postcode = models.CharField('Почтовый индекс', max_length=30)
-    city = models.CharField('Город', max_length=50)
-    country = models.CharField("Страна", max_length=50)
+    postcode = models.CharField('Почтовый индекс', max_length=30, blank=True)
+    city = models.CharField('Город', max_length=50, blank=True)
+    country = models.CharField("Страна", max_length=50, blank=True)
 
     def __str__(self):
         if self.house:
@@ -65,3 +67,9 @@ class AddressUser(models.Model):
     class Meta:
         verbose_name = "Адрес"
         verbose_name_plural = "Адреса"
+
+
+@receiver(post_save, sender=CustomUser)
+def create_address_user(sender, instance, created, **kwargs):
+    if created:
+        AddressUser.objects.create(user=instance)

@@ -14,7 +14,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ("email", )
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name", "phone", "address")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "phone", )}),
         (
             _("Permissions"),
             {
@@ -41,5 +41,9 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
+class AddressUserAdmin(admin.ModelAdmin):
+    list_display = ('user', 'street', 'house', 'postcode')
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(AddressUser)
+admin.site.register(AddressUser, AddressUserAdmin)
