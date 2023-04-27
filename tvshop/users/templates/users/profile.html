@@ -30,17 +30,17 @@
 
                     <h4>Адрес</h4>
 
-                    <div class="col-md-12"><label class="labels">Улица</label><br>{{ user.address.street|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Улица</label><br>{{ address.street|default:'Не задано' }}</div>
                     <div class="row mt-2">
-                        <div class="col-md-4"><label class="labels">Корпус</label><br>{{ user.address.corpus|default:'_' }}</div>
-                        <div class="col-md-4"><label class="labels">Дом</label><br>{{ user.address.house|default:'_' }}</div>
-                        <div class="col-md-4"><label class="labels">Квартира</label><br>{{ user.address.flat|default:'_' }}</div>
+                        <div class="col-md-4"><label class="labels">Корпус</label><br>{{ address.corpus|default:'_' }}</div>
+                        <div class="col-md-4"><label class="labels">Дом</label><br>{{ address.house|default:'_' }}</div>
+                        <div class="col-md-4"><label class="labels">Квартира</label><br>{{ address.flat|default:'_' }}</div>
                     </div>
-                    <div class="col-md-12"><label class="labels">Почтовый индекс</label><br>{{ user.address.postcode|default:'Не задано' }}</div>
-                    <div class="col-md-12"><label class="labels">Город</label><br>{{ user.address.city|default:'Не задано' }}</div>
-                    <div class="col-md-12"><label class="labels">Страна</label><br>{{ user.address.country|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Почтовый индекс</label><br>{{ address.postcode|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Город</label><br>{{ address.city|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Страна</label><br>{{ address.country|default:'Не задано' }}</div>
                 </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Изменить профиль</button></div>
+                <div class="mt-5 text-center"><a class="btn btn-primary profile-button" href="{% url 'profile_update' %}">Изменить профиль</a></div>
                 {% endblock %}
             </div>
         </div>

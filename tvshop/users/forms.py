@@ -37,11 +37,25 @@ class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('first_name', "last_name", "phone",)
+        widgets = {
+            'first_name': forms.TextInput(attrs={"class": "form-control", "placeholder": "Имя"}),
+            'last_name': forms.TextInput(attrs={"class": "form-control", "placeholder": "Фамилия"}),
+            'phone': forms.TextInput(attrs={"class": "form-control", "placeholder": "Номер телефона"})
+        }
 
 
 class AddressUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = AddressUser
-        fields = ('street', )
+        fields = ('street', 'corpus', 'house', 'flat', 'postcode', 'city', 'country')
+        widgets = {
+            'street': forms.TextInput(attrs={"class": "form-control", "placeholder": "Улица"}),
+            'corpus': forms.TextInput(attrs={"class": "form-control", "placeholder": "Корпус"}),
+            'house': forms.TextInput(attrs={"class": "form-control", "placeholder": "Дом"}),
+            'flat': forms.TextInput(attrs={"class": "form-control", "placeholder": "Квартира"}),
+            'postcode': forms.TextInput(attrs={"class": "form-control", "placeholder": "Почтовый индекс"}),
+            'city': forms.TextInput(attrs={"class": "form-control", "placeholder": "Город"}),
+            'country': forms.TextInput(attrs={"class": "form-control", "placeholder": "Страна"}),
+        }
 

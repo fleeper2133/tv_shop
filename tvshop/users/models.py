@@ -38,7 +38,7 @@ class CustomUserManager(UserManager):
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField("Email", unique=True)
-    phone = PhoneNumberField(_("phone"), default=None, null=True, unique=True, blank=True)
+    phone = PhoneNumberField("Номер телефона", default=None, null=True, unique=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

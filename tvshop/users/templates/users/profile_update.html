@@ -1,20 +1,41 @@
 {% extends 'users/profile.html' %}
 
 {% block form %}
-                {% for f in user_form %}
-                {{ f.label }}{{ f }}
-                {% endfor %}
+                <form method="post">
+                {% csrf_token %}
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                    {% for f in user_form %}
+                        {% if f != user_form.phone %}
+                            <div class="col-md-6"><label class="labels">{{ f.label }}</label>{{ f }}</div>
+                            <div class="form-error">{{ f.errors }}</div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter postcode" value=""></div>
-                    <div class="col-md-12"><label class="labels">City</label><input type="text" class="form-control" placeholder="enter city" value=""></div>
-                    <div class="col-md-12"><label class="labels">Country</label><input type="text" class="form-control" placeholder="enter country" value=""></div>
-                    <div class="col-md-12"><label class="labels">ZIP Code</label><input type="text" class="form-control" placeholder="enter ZIP code" value=""></div>
-                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                    <div class="col-md-12"><label class="labels">{{ user_form.phone.label }}</label>{{ user_form.phone }}</div>
+                    {{ user_form.phone.errors }}
+                    <h4>Адрес</h4>
+
+                    <div class="col-md-12"><label class="labels">{{ address_form.street.label }}</label>{{ address_form.street }}</div>
+                    {{ address_form.street.errors }}
+
+                    <div class="row mt-2">
+                        {% for f in address_form %}
+                            {% if forloop.counter0 > 0 and forloop.counter0 < 4 %}
+                                <div class="col-md-4"><label class="labels">{{ f.label }}</label><br>{{ f }}</div>
+                                {{ f.errors }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    {% for f in address_form %}
+                            {% if forloop.counter0 > 3 %}
+                                <div class="col-md-12"><label class="labels">{{ f.label }}</label><br>{{ f }}</div>
+                                <div class="form-error">{{ f.errors }}</div>
+                            {% endif %}
+                    {% endfor %}
+                    </div>
+
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                </form>
 {% endblock %}

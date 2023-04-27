@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic import CreateView, TemplateView
 
 from .forms import LoginForm, CustomUserCreationForm
-from .models import CustomUser
+from .models import CustomUser, AddressUser
 from .forms import CustomUserChangeForm, AddressUserChangeForm
 
 
@@ -41,7 +41,9 @@ class UserProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = CustomUser.objects.get(pk=self.request.user.pk)
+        address = AddressUser.objects.get(user_id=self.request.user.pk)
         context['user'] = user
+        context['address'] = address
         context['title'] = "Профиль"
         return context
 
@@ -51,8 +53,35 @@ class UserProfileUpdateView(View):
 
     def get(self, request):
         user_form = CustomUserChangeForm(instance=request.user)
+        address = AddressUser.objects.get(user=request.user)
+        address_form = AddressUserChangeForm(instance=address)
 
-        return render(request, self.template_name, {"user_form": user_form})
+        data = {
+            "user_form": user_form,
+            "address_form": address_form,
+            "title": "Настройки профиля"
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request):
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        address = AddressUser.objects.get(user=request.user)
+        address_form = AddressUserChangeForm(request.POST, instance=address)
+
+        if user_form.is_valid() and address_form.is_valid():
+            user_form.save()
+            address_form.save()
+
+            return redirect('profile')
+
+        data = {
+            "user_form": user_form,
+            "address_form": address_form,
+            "title": "Настройки профиля"
+        }
+
+        return render(request, self.template_name, data)
 
 
 
