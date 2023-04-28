@@ -21,7 +21,7 @@ class UserLoginView(LoginView):
     extra_context = {"title": "Авторизация"}
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('profile')
 
 
 class UserRegistrationView(CreateView):
@@ -32,7 +32,7 @@ class UserRegistrationView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('profile')
 
 
 class UserProfileView(TemplateView):
@@ -48,26 +48,18 @@ class UserProfileView(TemplateView):
         return context
 
 
-class UserProfileUpdateView(View):
+def user_profile_update(request):
     template_name = 'users/profile_update.html'
 
-    def get(self, request):
-        user_form = CustomUserChangeForm(instance=request.user)
-        address = AddressUser.objects.get(user=request.user)
-        address_form = AddressUserChangeForm(instance=address)
+    address = AddressUser.objects.get(user=request.user)
 
-        data = {
-            "user_form": user_form,
-            "address_form": address_form,
-            "title": "Настройки профиля"
-        }
+    if request.POST:
+        request_update = request.POST.copy()
+        if request_update.get('phone') == '+7':
+            request_update.update({'phone': ''})
 
-        return render(request, self.template_name, data)
-
-    def post(self, request):
-        user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        address = AddressUser.objects.get(user=request.user)
-        address_form = AddressUserChangeForm(request.POST, instance=address)
+        user_form = CustomUserChangeForm(request_update, instance=request.user)
+        address_form = AddressUserChangeForm(request_update, instance=address)
 
         if user_form.is_valid() and address_form.is_valid():
             user_form.save()
@@ -75,13 +67,16 @@ class UserProfileUpdateView(View):
 
             return redirect('profile')
 
-        data = {
-            "user_form": user_form,
-            "address_form": address_form,
-            "title": "Настройки профиля"
-        }
+    user_form = CustomUserChangeForm(instance=request.user)
+    address_form = AddressUserChangeForm(instance=address)
 
-        return render(request, self.template_name, data)
+    data = {
+        "user_form": user_form,
+        "address_form": address_form,
+        "title": "Настройки профиля"
+    }
+
+    return render(request, template_name, data)
 
 
 

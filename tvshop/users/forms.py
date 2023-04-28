@@ -40,7 +40,7 @@ class CustomUserChangeForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={"class": "form-control", "placeholder": "Имя"}),
             'last_name': forms.TextInput(attrs={"class": "form-control", "placeholder": "Фамилия"}),
-            'phone': forms.TextInput(attrs={"class": "form-control", "placeholder": "Номер телефона"})
+            'phone': forms.TextInput(attrs={"class": "form-control", "placeholder": "Номер телефона", "value": "+7"})
         }
 
 
