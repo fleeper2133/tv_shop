@@ -1,0 +1,60 @@
+{% extends 'items/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'items/css/profile.css' %}">
+
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center py-5 mb-3"><h4>{{ user.email }}</h4><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Настройки профиля</h4>
+                </div>
+                {% block form %}
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Имя</label><br>{{ user.first_name|default:'Не задано' }}</div>
+                    <div class="col-md-6"><label class="labels">Фамилия</label><br>{{ user.last_name|default:'Не задано' }}</div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Номер телефона</label><br>{{ user.phone|default:'Не задано' }}</div><br><br><br>
+
+                    <h4>Адрес</h4>
+
+                    <div class="col-md-12"><label class="labels">Улица</label><br>{{ address.street|default:'Не задано' }}</div>
+                    <div class="row mt-2">
+                        <div class="col-md-4"><label class="labels">Корпус</label><br>{{ address.corpus|default:'_' }}</div>
+                        <div class="col-md-4"><label class="labels">Дом</label><br>{{ address.house|default:'_' }}</div>
+                        <div class="col-md-4"><label class="labels">Квартира</label><br>{{ address.flat|default:'_' }}</div>
+                    </div>
+                    <div class="col-md-12"><label class="labels">Почтовый индекс</label><br>{{ address.postcode|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Город</label><br>{{ address.city|default:'Не задано' }}</div>
+                    <div class="col-md-12"><label class="labels">Страна</label><br>{{ address.country|default:'Не задано' }}</div>
+                </div>
+                <div class="mt-5 text-center"><a class="btn btn-primary profile-button" href="{% url 'profile_update' %}">Изменить профиль</a></div>
+                {% endblock %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="col-md-12">
+                    <h4>Выйти с аккаунта</h4><br>
+                    <a class="btn btn-danger" href="{% url 'logout' %}">Выйти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
