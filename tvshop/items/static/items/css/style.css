@@ -1097,6 +1097,14 @@ textarea.input {
   width: 100%;
 }
 
+.product-img {
+  width: 255px;
+  height: 200px;
+  background: no-repeat center center;
+  background-size: cover;
+
+}
+
 .product-widget .product-body {
   padding-left: 75px;
   min-height: 60px;
