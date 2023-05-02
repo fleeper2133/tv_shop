@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'mathfilters',
     "phonenumber_field",
     'items.apps.ItemsConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'cart.apps.CartConfig'
 ]
 
 MIDDLEWARE = [
