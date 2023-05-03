@@ -17,3 +17,16 @@ def add_in_cart(request, id_item):
         return redirect(request.POST.get('url_from'))
 
 
+def remove_from_cart(request, id_item):
+
+    if request.POST:
+        cart = request.session.get('cart')
+
+        id_item = str(id_item)
+        del cart[id_item]
+
+        request.session['cart'] = cart
+
+        return redirect(request.POST.get('url_from'))
+
+

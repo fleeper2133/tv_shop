@@ -64,7 +64,7 @@
 												</div>
 												<div class="product-body">
 													<p class="product-category">{{ item.model }}</p>
-													<h3 class="product-name"><a href="#">{{ item.title }}</a></h3>
+													<h3 class="product-name"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
 													{% if item.discount_value %}
 														<h4 class="product-price">{{ item.discount_value }}руб. <del class="product-old-price">{{ item.value }}руб.</del></h4>
 													{% else %}
