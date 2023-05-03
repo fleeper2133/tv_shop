@@ -112,33 +112,15 @@
 									<div class="cart-dropdown">
 										<div class="cart-list">
 
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="{% static 'items/img/product01.png' %}" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
-
-
 											{% for item in items_cart %}
 											<div class="product-widget">
 												<div class="product-img">
-													<img src="{{ item.photo }}" alt="">
+													<img src="{{ item.photo.url }}" alt="">
 												</div>
 												<div class="product-body">
-													<h3 class="product-name"><a href="#">{{ item.title }}</a></h3>
+													<h3 class="product-name"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
 													{% with item_id=item.pk|slugify %}
-													<h4 class="product-price"><span class="qty">{{ request.session.cart|get_item:item_id|get_item:"quantity" }} x</span>
-														{% if item.discount_value %}
-															{{ item.discount_value }}руб.
-														{% else %}
-															{{ item.value }}руб.
-														{% endif %}
-													</h4>
+													<h4 class="product-price"><span class="qty">{{ request.session.cart|get_item:item_id|get_item:"quantity" }} x</span> {{ item.get_value }}руб. </h4>
 													{% endwith %}
 												</div>
 												<button class="delete"><i class="fa fa-close"></i></button>
@@ -148,8 +130,8 @@
 
 										</div>
 										<div class="cart-summary">
-											<small>3 Item(s) selected</small>
-											<h5>SUBTOTAL: $2940.00</h5>
+											<small>{{ quantity_cart }} вещь(и) выбрано</small>
+											<h5>Общая цена: {{ total_cart }}руб. </h5>
 										</div>
 										<div class="cart-btns">
 											<a href="#">View Cart</a>

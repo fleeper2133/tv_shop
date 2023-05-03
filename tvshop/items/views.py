@@ -41,7 +41,14 @@ class ItemList(ListView):
 
         if cart:
             items_cart = Tv.objects.filter(pk__in=cart)
+            #  Считаем общую цену
+            total = 0
+            for item in items_cart:
+                total += cart[str(item.pk)]['quantity'] * item.get_value()
+
             context['items_cart'] = items_cart
+            context['quantity_cart'] = len(items_cart)
+            context['total_cart'] = total
 
         context['models'] = models
         context['slug_selected'] = self.kwargs.get('model_slug')
