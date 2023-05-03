@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
+from django.views import View
 
 
-def add_in_cart(request, id_item):
+class AddInCart(View):
 
-    if request.POST:
+    @staticmethod
+    def post(request, id_item):
         cart = request.session.get('cart', {})
 
         id_item = str(id_item)
@@ -17,9 +19,10 @@ def add_in_cart(request, id_item):
         return redirect(request.POST.get('url_from'))
 
 
-def remove_from_cart(request, id_item):
+class RemoveFromCart(View):
 
-    if request.POST:
+    @staticmethod
+    def post(request, id_item):
         cart = request.session.get('cart')
 
         id_item = str(id_item)
