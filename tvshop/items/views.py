@@ -27,6 +27,7 @@ class ItemList(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         models = Model.objects.all()
+        cart = self.request.session.get('cart')
 
         if self.kwargs.get('model_slug'):
             row_count = ceil(Tv.objects.filter(is_published=True, model__slug=self.kwargs['model_slug']).count() / 4)
@@ -37,6 +38,10 @@ class ItemList(ListView):
         else:
             row_count = ceil(Tv.objects.filter(is_published=True).count() / 4)
             context['title'] = "Главная страница"
+
+        if cart:
+            items_cart = Tv.objects.filter(pk__in=cart)
+            context['items_cart'] = items_cart
 
         context['models'] = models
         context['slug_selected'] = self.kwargs.get('model_slug')

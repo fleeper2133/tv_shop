@@ -64,10 +64,7 @@
 							</div>
 							<p>{{ item.content|truncatechars:255}}</p>
 							<br>
-							<div class="add-to-cart">
-
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
+							{% include 'items/add_to_cart_button.html' with id=item.pk %}
 
 							<ul class="product-btns">
 								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
