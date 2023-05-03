@@ -53,7 +53,7 @@
 						{% if user.is_authenticated %}
 							<li><a href="{% url 'profile' %}"><i class="fa fa-user-o"></i> {{ user.email }}</a></li>
 						{% else %}
-							<li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i> My Account</a></li>
+							<li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i> Мой аккаунт</a></li>
 						{% endif %}
 					</ul>
 				</div>
@@ -82,7 +82,7 @@
 							<div class="header-search">
 								<form method="get">
 									<input name="search" class="input" placeholder="Search here">
-									<button class="search-btn">Search</button>
+									<button class="search-btn">Поиск</button>
 								</form>
 							</div>
 						</div>
@@ -106,12 +106,15 @@
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
-										<span>Your Cart</span>
+										<span>Корзина</span>
+										{% if items_cart %}
 										<div class="qty">{{ quantity_cart }}</div>
+										{% endif %}
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
 
+										{% if items_cart %}
 											{% for item in items_cart %}
 											<div class="product-widget">
 												<div class="product-img">
@@ -120,6 +123,12 @@
 												<div class="product-body">
 													<h3 class="product-name"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
 													{% with item_id=item.pk|slugify %}
+													<button class="btn btn-light btn-sm"><b>-</b></button>
+													<form method="post" action="{% url 'cart:add' item.pk %}" style="display: inline">
+														{% csrf_token %}
+														<input type="hidden" name="url_from" value="{{ request.path }}">
+														<button type="submit" class="btn btn-light btn-sm"><b>+</b></button>
+													</form>
 													<h4 class="product-price"><span class="qty">{{ request.session.cart|get_item:item_id|get_item:"quantity" }} x</span> {{ item.get_value }}руб. </h4>
 													{% endwith %}
 												</div>
@@ -130,29 +139,24 @@
 												</form>
 											</div>
 											{% endfor %}
-
+										{% else %}
+											<h3>Корзина пуста</h3>
+										{% endif %}
 
 										</div>
 										<div class="cart-summary">
-											<small>{{ quantity_cart }}шт. выбрано</small>
-											<h5>Общая цена: {{ total_cart }}руб. </h5>
+											<small>{{ quantity_cart|default:0 }}шт. выбрано</small>
+											<h5>Общая цена: {{ total_cart|default:0 }}руб. </h5>
 										</div>
 										<div class="cart-btns">
-											<a href="#">View Cart</a>
-											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="#">Обзор корзины</a>
+											<a href="#">Купить  <i class="fa fa-arrow-circle-right"></i></a>
 										</div>
 									</div>
 								</div>
 								<!-- /Cart -->
 
-								<!-- Menu Toogle -->
-								<div class="menu-toggle">
-									<a href="#">
-										<i class="fa fa-bars"></i>
-										<span>Menu</span>
-									</a>
-								</div>
-								<!-- /Menu Toogle -->
+
 							</div>
 						</div>
 						<!-- /ACCOUNT -->
