@@ -1,5 +1,5 @@
 {% load static %}
-{% load custom_filters %}
+{% load custom_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,66 +102,7 @@
 								</div>
 								<!-- /Wishlist -->
 
-								<!-- Cart -->
-								<div class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-										<i class="fa fa-shopping-cart"></i>
-										<span>Корзина</span>
-										{% if items_cart %}
-										<div class="qty">{{ quantity_cart }}</div>
-										{% endif %}
-									</a>
-									<div class="cart-dropdown">
-										<div class="cart-list">
-
-										{% if items_cart %}
-											{% for item in items_cart %}
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="{{ item.photo.url }}" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
-
-													<form method="post" action="{% url 'cart:minus' item.pk %}" style="display: inline">
-														{% csrf_token %}
-														<input type="hidden" name="url_from" value="{{ request.path }}">
-														<button type="submit" class="btn btn-light btn-sm"><b>-</b></button>
-													</form>
-
-													<form method="post" action="{% url 'cart:add' item.pk %}" style="display: inline">
-														{% csrf_token %}
-														<input type="hidden" name="url_from" value="{{ request.path }}">
-														<button type="submit" class="btn btn-light btn-sm"><b>+</b></button>
-													</form>
-
-													{% with item_id=item.pk|slugify %}
-													<h4 class="product-price"><span class="qty">{{ request.session.cart|get_item:item_id|get_item:"quantity" }} x</span> {{ item.get_value }}руб. </h4>
-													{% endwith %}
-												</div>
-												<form method="post" action="{% url 'cart:remove' item.pk %}">
-													{% csrf_token %}
-													<input type="hidden" name="url_from" value="{{ request.path }}">
-													<button type="submit" class="delete"><i class="fa fa-close"></i></button>
-												</form>
-											</div>
-											{% endfor %}
-										{% else %}
-											<h3>Корзина пуста</h3>
-										{% endif %}
-
-										</div>
-										<div class="cart-summary">
-											<small>{{ quantity_cart|default:0 }}шт. выбрано</small>
-											<h5>Общая цена: {{ total_cart|default:0 }}руб. </h5>
-										</div>
-										<div class="cart-btns">
-											<a href="#">Обзор корзины</a>
-											<a href="#">Купить  <i class="fa fa-arrow-circle-right"></i></a>
-										</div>
-									</div>
-								</div>
-								<!-- /Cart -->
+						{% cart %}
 
 
 							</div>
