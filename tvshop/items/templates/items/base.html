@@ -122,13 +122,20 @@
 												</div>
 												<div class="product-body">
 													<h3 class="product-name"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
-													{% with item_id=item.pk|slugify %}
-													<button class="btn btn-light btn-sm"><b>-</b></button>
+
+													<form method="post" action="{% url 'cart:minus' item.pk %}" style="display: inline">
+														{% csrf_token %}
+														<input type="hidden" name="url_from" value="{{ request.path }}">
+														<button type="submit" class="btn btn-light btn-sm"><b>-</b></button>
+													</form>
+
 													<form method="post" action="{% url 'cart:add' item.pk %}" style="display: inline">
 														{% csrf_token %}
 														<input type="hidden" name="url_from" value="{{ request.path }}">
 														<button type="submit" class="btn btn-light btn-sm"><b>+</b></button>
 													</form>
+
+													{% with item_id=item.pk|slugify %}
 													<h4 class="product-price"><span class="qty">{{ request.session.cart|get_item:item_id|get_item:"quantity" }} x</span> {{ item.get_value }}руб. </h4>
 													{% endwith %}
 												</div>
