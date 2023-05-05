@@ -26,9 +26,11 @@
 							<div class="form-group">
 								<input class="input" value="{{ request.user.last_name}}" type="text" name="last-name" placeholder="Фамилия">
 							</div>
+							{% if not request.user.is_authenticated  %}
 							<div class="form-group">
 								<input class="input" value="{{ request.user.email}}" type="email" name="email" placeholder="Email">
 							</div>
+							{% endif %}
 							<div class="form-group">
 								<input class="input" value="{{ address.street }}" type="text" name="street" placeholder="Улица">
 							</div>
@@ -63,6 +65,16 @@
 										<input class="input" type="password" name="re-password" placeholder="Введите повтор пароля">
 									</div>
 								</div>
+							</div>
+							{% else %}
+							<div class="form-group">
+								<div class="input-checkbox">
+									<input type="checkbox" id="update-account">
+									<label for="update-account">
+										<span></span>
+										Обновить данный в профиле?
+									</label>
+									</div>
 							</div>
 							{% endif %}
 						</div>
@@ -119,7 +131,7 @@
 							</div>
 						</div>
 
-						<a href="#" class="primary-btn order-submit">Купить</a>
+						<button class="primary-btn order-submit">Купить</button>
 					</div>
 					<!-- /Order Details -->
 				</div>
