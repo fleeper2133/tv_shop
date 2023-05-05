@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "phonenumber_field",
     'items.apps.ItemsConfig',
     'users.apps.UsersConfig',
-    'cart.apps.CartConfig'
+    'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig'
 ]
 
 MIDDLEWARE = [
