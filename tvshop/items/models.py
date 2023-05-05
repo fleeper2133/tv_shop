@@ -30,6 +30,11 @@ class Tv(models.Model):
     def get_absolute_url(self):
         return reverse('detail', kwargs={"pk": self.pk})
 
+    def get_value(self):
+        if self.discount_value:
+            return self.discount_value
+        return self.value
+
 
 class Model(models.Model):
     title = models.CharField("Название", max_length=255)

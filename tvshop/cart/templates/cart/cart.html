@@ -1,0 +1,132 @@
+{% extends 'items/base.html' %}
+{% load custom_filters %}
+{% load mathfilters %}
+
+{% block content %}
+<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<div class="col-md-7">
+						<!-- Billing Details -->
+						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title">Адрес и пользовательские данные</h3>
+							</div>
+							{% if not request.user.is_authenticated %}
+							<h4><a href="{% url 'login' %}">Авторизуйтесь</a> для автоматического ввода данных</h4><br>
+							{% endif %}
+
+							<div class="form-group">
+								<input class="input" value="{{ request.user.first_name}}" type="text" name="first-name" placeholder="Имя">
+							</div>
+							<div class="form-group">
+								<input class="input" value="{{ request.user.last_name}}" type="text" name="last-name" placeholder="Фамилия">
+							</div>
+							<div class="form-group">
+								<input class="input" value="{{ request.user.email}}" type="email" name="email" placeholder="Email">
+							</div>
+							<div class="form-group">
+								<input class="input" value="{{ address.street }}" type="text" name="street" placeholder="Улица">
+							</div>
+							<div class="row mt-2">
+								<div class="col-md-4"><input class="input" value="{{ address.corpus }}" type="text" name="corpus" placeholder="Корпус"></div>
+								<div class="col-md-4"><input class="input" value="{{ address.house }}" type="text" name="house" placeholder="Дом"></div>
+								<div class="col-md-4"><input class="input" value="{{ address.flat }}" type="text" name="flat" placeholder="Квартира"></div>
+							</div>
+							<br>
+							<div class="form-group">
+								<input class="input" value="{{ address.city }}" type="text" name="city" placeholder="Город">
+							</div>
+							<div class="form-group">
+								<input class="input" value="{{ address.country }}" type="text" name="country" placeholder="Страна">
+							</div>
+							<div class="form-group">
+								<input class="input" value="{{ address.postcode }}" type="text" name="zip-code" placeholder="Почтовый индекс">
+							</div>
+							<div class="form-group">
+								<input class="input" value="{{ request.user.phone|default:'+7' }}" type="text" name="phone" placeholder="Телефон">
+							</div>
+							{% if not request.user.is_authenticated %}
+							<div class="form-group">
+								<div class="input-checkbox">
+									<input type="checkbox" id="create-account">
+									<label for="create-account">
+										<span></span>
+										Создать аккаунт?
+									</label>
+									<div class="caption">
+										<input class="input" type="password" name="password" placeholder="Введите ваш пароль">
+										<input class="input" type="password" name="re-password" placeholder="Введите повтор пароля">
+									</div>
+								</div>
+							</div>
+							{% endif %}
+						</div>
+						<!-- /Billing Details -->
+
+						<!-- Order notes -->
+						<div class="order-notes">
+							<textarea class="input" placeholder="Другие пометки"></textarea>
+						</div>
+						<!-- /Order notes -->
+					</div>
+
+					<!-- Order Details -->
+					<div class="col-md-5 order-details">
+						<div class="section-title text-center">
+							<h3 class="title">Ваш заказ</h3>
+						</div>
+						<div class="order-summary">
+							<div class="order-col">
+								<div><strong>Продукт</strong></div>
+								<div><strong>Цена</strong></div>
+							</div>
+							<div class="order-products">
+								{% for item in items_cart %}
+
+
+
+									<div class="order-col">
+										{% with item_id=item.pk|slugify %}
+										{% with quantity=request.session.cart|get_item:item_id|get_item:"quantity" %}
+										<div>{{ quantity }} x {{ item }}</div>
+
+										<div>{{ item.get_value|mul:quantity }}руб.</div>
+										{% endwith %}
+										{% endwith %}
+									</div>
+								<form method="post" action="{% url 'cart:minus' item.pk %}" style="display: inline">
+									{% csrf_token %}
+									<input type="hidden" name="url_from" value="{{ request.path }}">
+									<button type="submit" class="btn btn-light btn-sm"><b>-</b></button>
+								</form>
+
+								<form method="post" action="{% url 'cart:add' item.pk %}" style="display: inline">
+									{% csrf_token %}
+									<input type="hidden" name="url_from" value="{{ request.path }}">
+									<button type="submit" class="btn btn-light btn-sm"><b>+</b></button>
+								</form>
+								<hr>
+								{% endfor %}
+							</div>
+							<div class="order-col">
+								<div><strong>Итого</strong></div>
+								<div><strong class="order-total">{{ total_cart }}руб.</strong></div>
+							</div>
+						</div>
+
+						<a href="#" class="primary-btn order-submit">Купить</a>
+					</div>
+					<!-- /Order Details -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+{% endblock %}

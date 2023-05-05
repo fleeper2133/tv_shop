@@ -64,7 +64,7 @@
 												</div>
 												<div class="product-body">
 													<p class="product-category">{{ item.model }}</p>
-													<h3 class="product-name"><a href="#">{{ item.title }}</a></h3>
+													<h3 class="product-name"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
 													{% if item.discount_value %}
 														<h4 class="product-price">{{ item.discount_value }}руб. <del class="product-old-price">{{ item.value }}руб.</del></h4>
 													{% else %}
@@ -80,12 +80,10 @@
 													<div class="product-btns">
 														<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 														<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-														<button onclick="document.location='{{ item.get_absolute_url }}'" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+														<button onclick="document.location='{{ item.get_absolute_url }}'" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Обзор</span></button>
 													</div>
 												</div>
-												<div class="add-to-cart">
-													<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-												</div>
+												{% include 'items/add_to_cart_button.html' with id=item.pk %}
 											</div>
 
 											<!-- /product -->

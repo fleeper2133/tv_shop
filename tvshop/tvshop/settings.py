@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'mathfilters',
     "phonenumber_field",
     'items.apps.ItemsConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'cart.apps.CartConfig'
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'template_filters': 'items.templatetags.custom_filters',
+                'template_tags': 'items.templatetags.custom_tags',
+            }
         },
     },
 ]

@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -22,6 +23,16 @@ class UserLoginView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('profile')
+
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        cart = self.request.session.get('cart', {})
+
+        login(self.request, form.get_user())
+
+        self.request.session['cart'] = cart
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class UserRegistrationView(CreateView):
