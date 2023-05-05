@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
 from items.models import Tv
+from users.models import AddressUser
 
 
 class CartView(TemplateView):
@@ -10,6 +11,7 @@ class CartView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         cart = self.request.session.get('cart')
+        address = AddressUser.objects.filter(user_id=self.request.user.pk)
 
         if cart:
             items_cart = Tv.objects.filter(pk__in=cart)
@@ -21,6 +23,9 @@ class CartView(TemplateView):
             context['items_cart'] = items_cart
             context['quantity_cart'] = len(items_cart)
             context['total_cart'] = total
+
+        if address:
+            context['address'] = address
 
         context['title'] = "Корзина"
 

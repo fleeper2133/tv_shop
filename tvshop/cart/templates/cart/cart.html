@@ -14,92 +14,63 @@
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">Billing address</h3>
+								<h3 class="title">Адрес и пользовательские данные</h3>
+							</div>
+							{% if not request.user.is_authenticated %}
+							<h4><a href="{% url 'login' %}">Авторизуйтесь</a> для автоматического ввода данных</h4><br>
+							{% endif %}
+
+							<div class="form-group">
+								<input class="input" value="{{ request.user.first_name}}" type="text" name="first-name" placeholder="Имя">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="first-name" placeholder="First Name">
+								<input class="input" value="{{ request.user.last_name}}" type="text" name="last-name" placeholder="Фамилия">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="last-name" placeholder="Last Name">
+								<input class="input" value="{{ request.user.email}}" type="email" name="email" placeholder="Email">
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="Email">
+								<input class="input" value="{{ address.street }}" type="text" name="street" placeholder="Улица">
+							</div>
+							<div class="row mt-2">
+								<div class="col-md-4"><input class="input" value="{{ address.corpus }}" type="text" name="corpus" placeholder="Корпус"></div>
+								<div class="col-md-4"><input class="input" value="{{ address.house }}" type="text" name="house" placeholder="Дом"></div>
+								<div class="col-md-4"><input class="input" value="{{ address.flat }}" type="text" name="flat" placeholder="Квартира"></div>
+							</div>
+							<br>
+							<div class="form-group">
+								<input class="input" value="{{ address.city }}" type="text" name="city" placeholder="Город">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="Address">
+								<input class="input" value="{{ address.country }}" type="text" name="country" placeholder="Страна">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="city" placeholder="City">
+								<input class="input" value="{{ address.postcode }}" type="text" name="zip-code" placeholder="Почтовый индекс">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="country" placeholder="Country">
+								<input class="input" value="{{ request.user.phone|default:'+7' }}" type="text" name="phone" placeholder="Телефон">
 							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-							</div>
-							<div class="form-group">
-								<input class="input" type="tel" name="tel" placeholder="Telephone">
-							</div>
+							{% if not request.user.is_authenticated %}
 							<div class="form-group">
 								<div class="input-checkbox">
 									<input type="checkbox" id="create-account">
 									<label for="create-account">
 										<span></span>
-										Create Account?
+										Создать аккаунт?
 									</label>
 									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-										<input class="input" type="password" name="password" placeholder="Enter Your Password">
+										<input class="input" type="password" name="password" placeholder="Введите ваш пароль">
+										<input class="input" type="password" name="re-password" placeholder="Введите повтор пароля">
 									</div>
 								</div>
 							</div>
+							{% endif %}
 						</div>
 						<!-- /Billing Details -->
 
-						<!-- Shiping Details -->
-						<div class="shiping-details">
-							<div class="section-title">
-								<h3 class="title">Shiping address</h3>
-							</div>
-							<div class="input-checkbox">
-								<input type="checkbox" id="shiping-address">
-								<label for="shiping-address">
-									<span></span>
-									Ship to a diffrent address?
-								</label>
-								<div class="caption">
-									<div class="form-group">
-										<input class="input" type="text" name="first-name" placeholder="First Name">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="last-name" placeholder="Last Name">
-									</div>
-									<div class="form-group">
-										<input class="input" type="email" name="email" placeholder="Email">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="address" placeholder="Address">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="city" placeholder="City">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="country" placeholder="Country">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-									</div>
-									<div class="form-group">
-										<input class="input" type="tel" name="tel" placeholder="Telephone">
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Shiping Details -->
-
 						<!-- Order notes -->
 						<div class="order-notes">
-							<textarea class="input" placeholder="Order Notes"></textarea>
+							<textarea class="input" placeholder="Другие пометки"></textarea>
 						</div>
 						<!-- /Order notes -->
 					</div>
@@ -139,6 +110,7 @@
 									<input type="hidden" name="url_from" value="{{ request.path }}">
 									<button type="submit" class="btn btn-light btn-sm"><b>+</b></button>
 								</form>
+								<hr>
 								{% endfor %}
 							</div>
 							<div class="order-col">
