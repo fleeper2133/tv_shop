@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, TemplateView
-
 from .forms import LoginForm, CustomUserCreationForm
 from .models import CustomUser, AddressUser
 from .forms import CustomUserChangeForm, AddressUserChangeForm
@@ -59,12 +58,11 @@ class UserProfileView(TemplateView):
         return context
 
 
-def user_profile_update(request):
+class UserProfileUpdate(View):
     template_name = 'users/profile_update.html'
 
-    address = AddressUser.objects.get(user=request.user)
-
-    if request.POST:
+    def post(self, request):
+        address = AddressUser.objects.get(user=request.user)
         request_update = request.POST.copy()
         if request_update.get('phone') == '+7':
             request_update.update({'phone': ''})
@@ -78,19 +76,24 @@ def user_profile_update(request):
 
             return redirect('profile')
 
-    user_form = CustomUserChangeForm(instance=request.user)
-    address_form = AddressUserChangeForm(instance=address)
+        data = {
+            "user_form": user_form,
+            "address_form": address_form,
+            "title": "Настройки профиля"
+        }
 
-    data = {
-        "user_form": user_form,
-        "address_form": address_form,
-        "title": "Настройки профиля"
-    }
+        return render(request, self.template_name, data)
 
-    return render(request, template_name, data)
+    def get(self, request):
+        address = AddressUser.objects.get(user=request.user)
+        user_form = CustomUserChangeForm(instance=request.user)
+        address_form = AddressUserChangeForm(instance=address)
 
+        data = {
+            "user_form": user_form,
+            "address_form": address_form,
+            "title": "Настройки профиля"
+        }
 
-
-
-
+        return render(request, self.template_name, data)
 
