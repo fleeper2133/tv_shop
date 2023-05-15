@@ -10,6 +10,9 @@
 				<!-- row -->
 				<div class="row">
 
+					<form method="post" action="{% url 'create_order' %}" id="create_order">
+						{% csrf_token %}
+
 					<div class="col-md-7">
 						<!-- Billing Details -->
 						<div class="billing-details">
@@ -20,72 +23,76 @@
 							<h4><a href="{% url 'login' %}">Авторизуйтесь</a> для автоматического ввода данных</h4><br>
 							{% endif %}
 
-							<div class="form-group">
-								<input class="input" value="{{ request.user.first_name}}" type="text" name="first-name" placeholder="Имя">
-							</div>
-							<div class="form-group">
-								<input class="input" value="{{ request.user.last_name}}" type="text" name="last-name" placeholder="Фамилия">
-							</div>
-							{% if not request.user.is_authenticated  %}
-							<div class="form-group">
-								<input class="input" value="{{ request.user.email}}" type="email" name="email" placeholder="Email">
-							</div>
-							{% endif %}
-							<div class="form-group">
-								<input class="input" value="{{ address.street }}" type="text" name="street" placeholder="Улица">
-							</div>
-							<div class="row mt-2">
-								<div class="col-md-4"><input class="input" value="{{ address.corpus }}" type="text" name="corpus" placeholder="Корпус"></div>
-								<div class="col-md-4"><input class="input" value="{{ address.house }}" type="text" name="house" placeholder="Дом"></div>
-								<div class="col-md-4"><input class="input" value="{{ address.flat }}" type="text" name="flat" placeholder="Квартира"></div>
-							</div>
-							<br>
-							<div class="form-group">
-								<input class="input" value="{{ address.city }}" type="text" name="city" placeholder="Город">
-							</div>
-							<div class="form-group">
-								<input class="input" value="{{ address.country }}" type="text" name="country" placeholder="Страна">
-							</div>
-							<div class="form-group">
-								<input class="input" value="{{ address.postcode }}" type="text" name="zip-code" placeholder="Почтовый индекс">
-							</div>
-							<div class="form-group">
-								<input class="input" value="{{ request.user.phone|default:'+7' }}" type="text" name="phone" placeholder="Телефон">
-							</div>
-							{% if not request.user.is_authenticated %}
-							<div class="form-group">
-								<div class="input-checkbox">
-									<input type="checkbox" id="create-account">
-									<label for="create-account">
-										<span></span>
-										Создать аккаунт?
-									</label>
-									<div class="caption">
-										<input class="input" type="password" name="password" placeholder="Введите ваш пароль">
-										<input class="input" type="password" name="re-password" placeholder="Введите повтор пароля">
+
+								<div class="form-group">
+									{{ order_form.customer_first_name }}
+								</div>
+
+								<div class="form-group">
+									{{ order_form.customer_last_name }}
+								</div>
+								{% if not request.user.is_authenticated  %}
+								<div class="form-group">
+									{{ order_form.customer_email }}
+								</div>
+								{% endif %}
+								<div class="form-group">
+									{{ address_form.street }}
+								</div>
+								<div class="row mt-2">
+									<div class="col-md-4">{{ address_form.corpus }}</div>
+									<div class="col-md-4">{{ address_form.house }}</div>
+									<div class="col-md-4">{{ address_form.flat }}</div>
+
+								</div>
+								<br>
+								<div class="form-group">
+									{{ address_form.city }}
+								</div>
+								<div class="form-group">
+									{{ address_form.country }}
+								</div>
+								<div class="form-group">
+									{{ address_form.postcode }}
+								</div>
+								<div class="form-group">
+									{{ order_form.customer_phone }}
+								</div>
+								{% if not request.user.is_authenticated %}
+								<div class="form-group">
+									<div class="input-checkbox">
+										<input type="checkbox" id="create-account">
+										<label for="create-account">
+											<span></span>
+											Создать аккаунт?
+										</label>
+										<div class="caption">
+											<input class="input" type="password" name="password" placeholder="Введите ваш пароль">
+											<input class="input" type="password" name="re-password" placeholder="Введите повтор пароля">
+										</div>
 									</div>
 								</div>
+								{% else %}
+								<div class="form-group">
+									<div class="input-checkbox">
+										<input type="checkbox" id="update-account" name="update_account" value="Yes">
+										<label for="update-account">
+											<span></span>
+											Обновить данный в профиле?
+										</label>
+										</div>
+								</div>
+								{% endif %}
 							</div>
-							{% else %}
-							<div class="form-group">
-								<div class="input-checkbox">
-									<input type="checkbox" id="update-account">
-									<label for="update-account">
-										<span></span>
-										Обновить данный в профиле?
-									</label>
-									</div>
-							</div>
-							{% endif %}
-						</div>
-						<!-- /Billing Details -->
+							<!-- /Billing Details -->
 
-						<!-- Order notes -->
-						<div class="order-notes">
-							<textarea class="input" placeholder="Другие пометки"></textarea>
+							<!-- Order notes -->
+							<div class="order-notes">
+								<textarea class="input" placeholder="Другие пометки"></textarea>
+							</div>
+							<!-- /Order notes -->
 						</div>
-						<!-- /Order notes -->
-					</div>
+					</form>
 
 					<!-- Order Details -->
 					<div class="col-md-5 order-details">
@@ -131,7 +138,7 @@
 							</div>
 						</div>
 
-						<button class="primary-btn order-submit">Купить</button>
+						<button type="submit" form="create_order" class="primary-btn order-submit">Купить</button>
 					</div>
 					<!-- /Order Details -->
 				</div>

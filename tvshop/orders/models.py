@@ -5,12 +5,12 @@ from items.models import Tv
 
 
 class Order(models.Model):
-    customer_user = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
+    customer_user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
     customer_first_name = models.CharField('Имя покупателя', max_length=150)
     customer_last_name = models.CharField('Фамилия покупателя', max_length=150)
     customer_email = models.EmailField('Email покупателя')
     customer_phone = PhoneNumberField('Номер телефона покупателя')
-    customer_address = models.OneToOneField(AddressUser, on_delete=models.PROTECT)
+    customer_address = models.ForeignKey(AddressUser, on_delete=models.PROTECT)
     tv = models.ManyToManyField(Tv, through='OrderTV', verbose_name='Телевизоры')
     note = models.TextField('Пометки', blank=True)
     time_create = models.DateTimeField('Дата и время создание', auto_now_add=True)

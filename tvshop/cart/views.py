@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from items.models import Tv
 from users.models import AddressUser
+from orders.forms import *
 
 
 class CartView(TemplateView):
@@ -25,8 +26,19 @@ class CartView(TemplateView):
             context['total_cart'] = total
 
         if address:
-            context['address'] = address
+            context['address_form'] = AddressCustomerForm(instance=address[0])
+        else:
+            context['address_form'] = AddressCustomerForm
 
+        if self.request.user.is_authenticated:
+            context['order_form'] = OrderForm(initial={
+                'customer_first_name': self.request.user.first_name,
+                'customer_last_name': self.request.user.last_name,
+                'customer_phone': self.request.user.phone,
+
+            })
+        else:
+            context['order_form'] = OrderForm
         context['title'] = "Корзина"
 
         return context
