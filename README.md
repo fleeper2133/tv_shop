@@ -1,8 +1,7 @@
 # tv_shop
 Tv_shop это простой сайт по продажам телевизоров, написанный на фреймворки Django.
 
-<h3>Run these Commads</h3>
-<hr>
+### Run these Commads
 <ul>
   <li>pip venv/venv</li>
   <li>pip install -r requirements.txt</li>
