@@ -16,7 +16,7 @@ class Order(models.Model):
     time_create = models.DateTimeField('Дата и время создание', auto_now_add=True)
 
     def __str__(self):
-        return self.customer_email
+        return str(self.pk) + " " + str(self.customer_email)
 
     class Meta:
         verbose_name = 'Заказ'
