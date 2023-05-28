@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from items.models import Tv
 from users.forms import CustomUserChangeForm, CustomUserCreationForm
-from users.models import AddressUser, CustomUser
+from users.models import CustomUser
 from orders.forms import *
 from orders.models import OrderTV
 

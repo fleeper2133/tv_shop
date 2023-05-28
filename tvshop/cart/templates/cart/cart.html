@@ -19,6 +19,7 @@
 							<div class="section-title">
 								<h3 class="title">Адрес и пользовательские данные</h3>
 							</div>
+							{{ error_no_items|safe }}
 							{% if not request.user.is_authenticated %}
 							<h4><a href="{% url 'login' %}">Авторизуйтесь</a> для автоматического ввода данных</h4><br>
 							{% endif %}
