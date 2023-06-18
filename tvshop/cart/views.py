@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.views import View
 from items.models import Tv
@@ -116,6 +117,8 @@ class CartOrderView(View):
                     order.save()
 
                     self.__create_order_tv(cart, order)
+                    request.session['cart'] = {}
+                    context['items_cart'] = {}
 
                 else:
                     context['order_form'] = order_form
@@ -152,6 +155,9 @@ class CartOrderView(View):
                         order.save()
 
                         self.__create_order_tv(cart, order)
+                        request.session['cart'] = {}
+                        context['items_cart'] = {}
+                        login(request, user)
                     else:
                         context['user_form'] = create_user
                         context['order_form'] = order_form
@@ -167,6 +173,8 @@ class CartOrderView(View):
                         order.save()
 
                         self.__create_order_tv(cart, order)
+                        request.session['cart'] = {}
+                        context['items_cart'] = {}
 
         return render(request, self.template_name, context)
 
