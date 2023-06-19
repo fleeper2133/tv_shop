@@ -114,29 +114,21 @@
 									<div class="order-col">
 										{% with item_id=item.pk|slugify %}
 										{% with quantity=request.session.cart|get_item:item_id|get_item:"quantity" %}
-										<div>{{ quantity }} x {{ item }}</div>
+										<div><span id="{{item.pk}}_quantity">{{ quantity }}</span> x {{ item }}</div>
 
-										<div>{{ item.get_value|mul:quantity }}руб.</div>
+										<div id="{{item.pk}}_value">{{ item.get_value|mul:quantity }}руб.</div>
 										{% endwith %}
 										{% endwith %}
 									</div>
-								<form method="post" action="{% url 'cart:minus' item.pk %}" style="display: inline">
-									{% csrf_token %}
-									<input type="hidden" name="url_from" value="{{ request.path }}">
-									<button type="submit" class="btn btn-light btn-sm"><b>-</b></button>
-								</form>
 
-								<form method="post" action="{% url 'cart:add' item.pk %}" style="display: inline">
-									{% csrf_token %}
-									<input type="hidden" name="url_from" value="{{ request.path }}">
-									<button type="submit" class="btn btn-light btn-sm"><b>+</b></button>
-								</form>
+								<button type="submit" data-id="{{ item.pk }}" class="btn btn-light btn-sm minus_item"><b>-</b></button>
+								<button type="submit" data-id="{{ item.pk }}" class="btn btn-light btn-sm add_item"><b>+</b></button>
 								<hr>
 								{% endfor %}
 							</div>
 							<div class="order-col">
 								<div><strong>Итого</strong></div>
-								<div><strong class="order-total">{{ total_cart }}руб.</strong></div>
+								<div><strong class="order-total total">{{ total_cart }}руб.</strong></div>
 							</div>
 						</div>
 

@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from items.models import Tv
@@ -6,6 +7,7 @@ from users.forms import CustomUserChangeForm, CustomUserCreationForm
 from users.models import CustomUser
 from orders.forms import *
 from orders.models import OrderTV
+from .utils import is_ajax
 
 
 class CartOrderView(View):
@@ -138,7 +140,7 @@ class CartOrderView(View):
                     data = self.__data_for_update_user(request)
                     update_user = CustomUserChangeForm(data)
 
-                    if create_user.is_valid() and address_form.is_valid()\
+                    if create_user.is_valid() and address_form.is_valid() \
                             and order_form.is_valid() and update_user.is_valid():
 
                         user = create_user.save()
@@ -196,21 +198,53 @@ class AddInCart(View):
         return redirect(request.POST.get('url_from'))
 
 
+def plus_minus_item_to_cart(request, plus_or_minus: str):  # plus_or_minus = + or -
+    if is_ajax(request):
+        cart = request.session.get('cart', {})
+        id_item = request.POST.get('id')
+        item = Tv.objects.get(pk=id_item)
+        items_cart = Tv.objects.filter(pk__in=cart)
+
+        if id_item in cart:
+
+            if plus_or_minus == '-' and cart[id_item]['quantity'] > 1:
+                cart[id_item]['quantity'] -= 1
+            elif plus_or_minus == '+':
+                cart[id_item]['quantity'] += 1
+
+            request.session['cart'] = cart
+
+            value = item.get_value()
+
+            #  Считаем общую цену
+            total = 0
+            for item in items_cart:
+                total += cart[str(item.pk)]['quantity'] * item.get_value()
+
+            data = {
+                "id": id_item,
+                'quantity': cart[id_item]['quantity'],
+                'value': value * int(cart[id_item]['quantity']),
+                'total': total
+
+            }
+            return data
+
+
+class PlusOne(View):
+
+    @staticmethod
+    def post(request):
+        data = plus_minus_item_to_cart(request, '+')
+        return JsonResponse(data, status=200)
+
+
 class RemoveOneItemFromCart(View):
 
     @staticmethod
-    def post(request, id_item):
-        cart = request.session.get('cart', {})
-        id_item = str(id_item)
-
-        cart[id_item]['quantity'] -= 1
-
-        if cart[id_item]['quantity'] < 1:
-            del cart[id_item]
-
-        request.session['cart'] = cart
-
-        return redirect(request.POST.get('url_from'))
+    def post(request):
+        data = plus_minus_item_to_cart(request, '-')
+        return JsonResponse(data, status=200)
 
 
 class RemoveFromCart(View):
