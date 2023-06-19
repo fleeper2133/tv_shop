@@ -7,5 +7,6 @@ urlpatterns = [
     path('', CartOrderView.as_view(), name="view"),
     path('add/<int:id_item>', AddInCart.as_view(), name="add"),
     path('remove/<int:id_item>', RemoveFromCart.as_view(), name="remove"),
-    path('minus/<int:id_item>', RemoveOneItemFromCart.as_view(), name='minus')
+    path('minus', RemoveOneItemFromCart.as_view(), name='minus'),
+    path('plus', PlusOne.as_view(), name='plus'),
 ]
